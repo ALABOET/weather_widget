@@ -1,18 +1,12 @@
 <template>
-  <div
-    class="weather_widget"
-    :style="{'inset': props.position}"
-  >
+  <div class="weather_widget" :style="{ inset: props.position }">
     <img
       class="weather_widget__gear-icon"
       :src="require('/src/assets/icons/gear.svg')"
       alt="gear"
       @click="store.toggleWeatherTab"
     />
-    <div
-      v-if="dataIsPresent"
-      class="weather_widget__no-data"
-    >
+    <div v-if="dataIsPresent" class="weather_widget__no-data">
       No data yet loaded
     </div>
     <WidgetInformation v-if="store.weatherInformationIsShown" />
@@ -39,7 +33,6 @@ const dataIsPresent = computed(() => {
 onMounted(() => {
   navigator.geolocation.getCurrentPosition(store.getInitialWeatherData)
 })
-
 </script>
 
 <style lang="scss" scoped>
@@ -52,7 +45,7 @@ onMounted(() => {
   &__no-data {
     text-align: center;
     font-size: 22px;
-    color: #FFFFFF;
+    color: #ffffff;
   }
   &__gear-icon {
     width: 20px;

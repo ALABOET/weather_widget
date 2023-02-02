@@ -25,11 +25,10 @@ const store = useWeatherStore()
 </script>
 
 <style lang="scss" scoped>
-.widget_information{
+.widget_information {
   max-height: 500px;
   overflow-y: auto;
   &__widget {
-
   }
 }
 </style>

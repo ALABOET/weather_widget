@@ -1,38 +1,58 @@
 <template>
   <div class="widget_configuration">
     <div class="widget_configuration__text">Settings</div>
-    <input type="text" v-model="city">
-    <button
-      @click="addCityHandler"
-      :style="buttonStyles"
-    >Add Location</button>
+    <input type="text" v-model="city" />
+    <button @click="addCityHandler" :style="buttonStyles">Add Location</button>
     <div class="widget_configuration__city_list city_list">
-      <div
-        v-for="location in store.weatherReports"
-        :key="location"
+      <vuedraggable
+        :list="weatherReports"
         class="city_list__city"
+        ghost-class="ghost"
       >
-      <CityInformation
-        :city="location.city"
-        @onDelete="store.deleteReport(location.city)"
-      />
-    </div>
+        <template #item="{ element }">
+          <CityInformation
+            :city="element.city"
+            @onDelete="deleteReport(element.city)"
+          />
+        </template>
+      </vuedraggable>
     </div>
   </div>
 </template>
 
-<script setup>
-import { useWeatherStore } from '@/containers/WeatherWidget/stores/Weather'
-import { computed, ref } from 'vue'
+<script>
 import CityInformation from '@/components/CityInformation'
-const store = useWeatherStore()
-const city = ref()
-const buttonStyles = computed(() => {
-  return { 'pointer-events': !city.value ? 'none' : '', opacity: !city.value ? '0.4' : '1' }
-})
-const addCityHandler = () => {
-  store.getWeatherReport(city.value)
-  store.toggleWeatherTab()
+import { mapActions, mapState } from 'pinia'
+import { useWeatherStore } from '@/containers/WeatherWidget/stores/Weather'
+import vuedraggable from 'vuedraggable'
+export default {
+  name: 'WidgetConfiguration',
+  components: { CityInformation, vuedraggable },
+  data () {
+    return {
+      city: ''
+    }
+  },
+  computed: {
+    ...mapState(useWeatherStore, ['weatherReports']),
+    buttonStyles () {
+      return {
+        'pointer-events': !this.city ? 'none' : '',
+        opacity: !this.city ? '0.4' : '1'
+      }
+    }
+  },
+  methods: {
+    ...mapActions(useWeatherStore, [
+      'getWeatherReport',
+      'toggleWeatherTab',
+      'deleteReport'
+    ]),
+    addCityHandler () {
+      this.getWeatherReport(this.city)
+      this.toggleWeatherTab()
+    }
+  }
 }
 </script>
 
@@ -40,7 +60,7 @@ const addCityHandler = () => {
 .widget_configuration {
   &__text {
     padding-top: 5px;
-    color: #FFFFFF;
+    color: #ffffff;
   }
   .city_list {
     margin-top: 20px;
