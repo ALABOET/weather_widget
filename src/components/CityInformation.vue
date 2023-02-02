@@ -1,11 +1,11 @@
 <template>
   <div class="city">
-    <img :src="require('/src/assets/icons/move.svg')" alt="move"/>
-    <div>{{props.city}}</div>
+    <img :src="require('/src/assets/icons/move.svg')" alt="move" />
+    <div>{{ props.city }}</div>
     <img
       :src="require('/src/assets/icons/trash_can.svg')"
       alt="delete"
-      @click="$emit('onDelete')"
+      @click="emits('onDelete')"
     />
   </div>
 </template>
@@ -15,6 +15,7 @@ import { defineProps } from 'vue'
 const props = defineProps({
   city: String
 })
+const emits = defineEmits(['onDelete'])
 </script>
 
 <style scoped lang="scss">
@@ -28,14 +29,14 @@ const props = defineProps({
   margin: 10px 0;
   border-radius: 10px;
   padding: 10px;
-  transition: .5s all ease;
+  transition: 0.5s all ease;
   &:hover {
     color: antiquewhite;
   }
   img {
     width: 20px;
     &:hover {
-      cursor:pointer;
+      cursor: pointer;
     }
   }
 }
