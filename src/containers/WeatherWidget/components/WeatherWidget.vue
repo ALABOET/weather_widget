@@ -1,5 +1,5 @@
 <template>
-  <div class="weather_widget" :style="{ inset: props.position }">
+  <div class="weather_widget" :style="{ top: props.top, left: props.left }">
     <img
       class="weather_widget__gear-icon"
       :src="require('/src/assets/icons/gear.svg')"
@@ -21,9 +21,8 @@ import { onMounted, defineProps, computed } from 'vue'
 import { useWeatherStore } from '@/containers/WeatherWidget/stores/Weather'
 const store = useWeatherStore()
 const props = defineProps({
-  position: String,
-  background: String,
-  color: String
+  top: String,
+  left: String
 })
 
 const dataIsPresent = computed(() => {
@@ -37,10 +36,9 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .weather_widget {
-  position: relative;
+  position: absolute;
   width: 300px;
   background: grey;
-  padding: 20px;
   border-radius: 20px;
   &__no-data {
     text-align: center;

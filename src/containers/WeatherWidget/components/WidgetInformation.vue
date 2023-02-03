@@ -28,7 +28,6 @@ const store = useWeatherStore()
 .widget_information {
   max-height: 500px;
   overflow-y: auto;
-  &__widget {
-  }
+  padding: 20px;
 }
 </style>
