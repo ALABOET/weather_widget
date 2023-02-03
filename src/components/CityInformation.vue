@@ -1,7 +1,7 @@
 <template>
   <div class="city">
     <img :src="require('/src/assets/icons/move.svg')" alt="move" />
-    <div>{{ props.city }}</div>
+    <div class="city__name">{{ props.city }}</div>
     <img
       :src="require('/src/assets/icons/trash_can.svg')"
       alt="delete"
@@ -38,6 +38,9 @@ const emits = defineEmits(['onDelete'])
     &:hover {
       cursor: pointer;
     }
+  }
+  &__name {
+    text-align: center;
   }
 }
 </style>

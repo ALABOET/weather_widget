@@ -1,7 +1,7 @@
 <template>
   <div class="widget_configuration">
     <div class="widget_configuration__text">Settings</div>
-    <input type="text" v-model="city" />
+    <input class="widget_configuration__input" type="text" v-model="city" />
     <button @click="addCityHandler" :style="buttonStyles">Add Location</button>
     <div class="widget_configuration__city_list city_list">
       <vuedraggable
@@ -38,7 +38,9 @@ export default {
     buttonStyles () {
       return {
         'pointer-events': !this.city ? 'none' : '',
-        opacity: !this.city ? '0.4' : '1'
+        opacity: !this.city ? '0.4' : '1',
+        display: 'block',
+        margin: '5px auto'
       }
     }
   },
@@ -50,7 +52,6 @@ export default {
     ]),
     addCityHandler () {
       this.getWeatherReport(this.city)
-      this.toggleWeatherTab()
     }
   }
 }
@@ -58,12 +59,18 @@ export default {
 
 <style lang="scss">
 .widget_configuration {
+  padding: 10px 20px;
   &__text {
     padding-top: 5px;
     color: #ffffff;
   }
   .city_list {
     margin-top: 20px;
+  }
+  &__input {
+    width: 100%;
+    padding: 0;
+    border: 0;
   }
 }
 </style>

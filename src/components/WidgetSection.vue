@@ -39,7 +39,7 @@ const props = defineProps({
     margin: auto;
   }
   &__city-text {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bolder;
   }
 }
