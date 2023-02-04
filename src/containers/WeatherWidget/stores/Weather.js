@@ -7,6 +7,11 @@ export const useWeatherStore = defineStore('weather', {
     weatherReports: [],
     weatherInformationIsShown: true
   }),
+  getters: {
+    dataIsPresent () {
+      return this.weatherReports.length === 0
+    }
+  },
   actions: {
     setCityName (value) {
       this.currentCity = value

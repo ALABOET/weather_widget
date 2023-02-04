@@ -6,8 +6,8 @@
       alt="gear"
       @click="store.toggleWeatherTab"
     />
-    <div v-if="dataIsPresent" class="weather_widget__no-data">
-      No data yet loaded
+    <div v-if="store.dataIsPresent && store.weatherInformationIsShown" class="weather_widget__no-data">
+      No data present
     </div>
     <WidgetInformation v-if="store.weatherInformationIsShown" />
     <WidgetConfiguration v-if="!store.weatherInformationIsShown" />
@@ -17,16 +17,12 @@
 <script setup>
 import WidgetInformation from '@/containers/WeatherWidget/components/WidgetInformation'
 import WidgetConfiguration from '@/containers/WeatherWidget/components/WidgetConfiguration'
-import { onMounted, defineProps, computed } from 'vue'
+import { onMounted, defineProps } from 'vue'
 import { useWeatherStore } from '@/containers/WeatherWidget/stores/Weather'
 const store = useWeatherStore()
 const props = defineProps({
   top: String,
   left: String
-})
-
-const dataIsPresent = computed(() => {
-  return store.weatherReports.length === 0
 })
 
 onMounted(() => {
@@ -36,14 +32,17 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .weather_widget {
+  max-height: 300px;
+  overflow-y: auto;
   position: absolute;
   width: 300px;
-  background: grey;
+  background: no-repeat url("/src/assets/pics/background_sky.webp");
   border-radius: 20px;
   &__no-data {
     text-align: center;
     font-size: 22px;
     color: #ffffff;
+    margin-top: 40px;
   }
   &__gear-icon {
     width: 20px;
