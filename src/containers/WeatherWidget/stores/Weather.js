@@ -5,7 +5,8 @@ export const useWeatherStore = defineStore('weather', {
   state: () => ({
     currentCity: '',
     weatherReports: [],
-    weatherInformationIsShown: true
+    weatherInformationIsShown: true,
+    locationNames: []
   }),
   getters: {
     dataIsPresent () {
@@ -25,6 +26,8 @@ export const useWeatherStore = defineStore('weather', {
     deleteReport (city) {
       const index = this.weatherReports.findIndex((elem) => elem.city === city)
       this.weatherReports.splice(index, 1)
+      this.locationNames.splice(city)
+      this.setLocalStorageData()
     },
     getWeatherReport (city) {
       axios
@@ -45,6 +48,9 @@ export const useWeatherStore = defineStore('weather', {
             text: condition.text,
             visibility: vis_km
           })
+          this.locationNames.push(name)
+          this.locationNames = [...new Set(this.locationNames)]
+          this.setLocalStorageData()
         })
     },
     getInitialWeatherData (pos) {
@@ -56,7 +62,12 @@ export const useWeatherStore = defineStore('weather', {
         .then((res) => {
           this.setCityName(res.data.city)
         })
-        .then(() => this.getWeatherReport(this.currentCity))
+        .then(() => {
+          this.getWeatherReport(this.currentCity)
+        })
+    },
+    setLocalStorageData () {
+      localStorage.setItem('locationNames', JSON.stringify(this.locationNames))
     }
   }
 })
