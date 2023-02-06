@@ -2,7 +2,7 @@
   <div class="weather_widget" :style="{ top: props.top, left: props.left }">
     <img
       class="weather_widget__gear-icon"
-      :src="require('/src/assets/icons/gear.svg')"
+      :src="require(`/src/assets/icons/${store.weatherInformationIsShown ? 'gear' : 'close' }.svg`)"
       alt="gear"
       @click="store.toggleWeatherTab"
     />
@@ -26,7 +26,14 @@ const props = defineProps({
 })
 
 onMounted(() => {
-  navigator.geolocation.getCurrentPosition(store.getInitialWeatherData)
+  const locationNames = JSON.parse(localStorage.getItem('locationNames'))
+  if (locationNames) {
+    locationNames.forEach((location) => {
+      store.getWeatherReport(location)
+    })
+  } else {
+    navigator.geolocation.getCurrentPosition(store.getInitialWeatherData)
+  }
 })
 </script>
 
